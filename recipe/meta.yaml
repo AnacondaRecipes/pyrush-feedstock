@@ -1,0 +1,59 @@
+{% set name = "pyrush" %}
+{% set version = "1.0.8" %}
+
+package:
+  name: {{ name|lower }}
+  version: {{ version }}
+
+source:
+  url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/PyRuSH-{{ version }}.tar.gz
+  sha256: 73f53cb1bd651d6ce68521ec28a571ad426b6e838e75daf4c9e25fd868293f60
+
+build:
+  script: {{ PYTHON }} -m pip install . -vv
+  number: 0
+
+requirements:
+  build:
+    - {{ compiler('cxx') }}
+    - {{ compiler('c') }}
+  host:
+    - python
+    - setuptools
+    - wheel
+    - cython >=0.25,<3.0
+    - numpy >=1.10
+    - spacy >=3.0.0
+    - cymem
+    - preshed
+    - quicksectx >=0.3.5
+    - pyfastner >=1.0.8
+    - pip
+    - setuptools
+    - wheel
+  run:
+    - python
+    - cython >=0.25,<3.0
+    - setuptools
+    - spacy >=3.0.0
+    - pyfastner >=1.0.8
+    - quicksectx >=0.3.5
+    - {{ pin_compatible('numpy') }}
+
+test:
+  imports:
+    - PyRuSH
+  commands:
+    - pip check
+  requires:
+    - pip
+
+about:
+  home: https://github.com/jianlins/PyRuSH
+  summary: A fast implementation of RuSH (Rule-based sentence Segmenter using Hashing).
+  license: MIT
+  license_file: LICENSE
+
+extra:
+  recipe-maintainers:
+    - skupr-anaconda
