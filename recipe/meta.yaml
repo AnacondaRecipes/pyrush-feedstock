@@ -42,12 +42,10 @@ requirements:
 test:
   imports:
     - PyRuSH
-  # Do not run pip check on the test environment, because of an error
-  # thinc 8.0.15 and spacy 3.3.1 has requirement pydantic!=1.8,!=1.8.1,<1.9.0,>=1.7.4, but you have pydantic 1.10.2.
-  # commands:
-  #   - pip check
-  # requires:
-  #   - pip
+  requires:
+    - pip
+  commands:
+    - pip check
 
 about:
   home: https://github.com/jianlins/PyRuSH
