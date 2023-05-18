@@ -10,7 +10,9 @@ source:
   sha256: 73f53cb1bd651d6ce68521ec28a571ad426b6e838e75daf4c9e25fd868293f60
 
 build:
-  script: {{ PYTHON }} -m pip install . -vv
+  # cymem, spacy, preshed aren't available for s390x
+  skip: true  # [s390x]
+  script: {{ PYTHON }} -m pip install . --no-deps --no-build-isolation -vv
   number: 0
 
 requirements:
@@ -19,41 +21,47 @@ requirements:
     - {{ compiler('c') }}
   host:
     - python
-    - setuptools
-    - wheel
-    - cython >=0.25,<3.0
-    - numpy >=1.10
-    - spacy >=3.0.0
-    - cymem
-    - preshed
-    - quicksectx >=0.3.5
-    - pyfastner >=1.0.8
+    - cymem 2.0.6
+    - cython 0.29.32
+    - numpy {{ numpy }}
     - pip
+    - preshed 3.0.6
+    - pyfastner 1.0.8
+    - quicksectx 0.3.5
     - setuptools
+    - spacy 3.5.3
     - wheel
   run:
     - python
     - cython >=0.25,<3.0
-    - setuptools
-    - spacy >=3.0.0
     - pyfastner >=1.0.8
     - quicksectx >=0.3.5
+    - spacy >=3.0.0
     - {{ pin_compatible('numpy') }}
 
 test:
   imports:
     - PyRuSH
-  commands:
-    - pip check
   requires:
     - pip
+  commands:
+    - pip check
 
 about:
   home: https://github.com/jianlins/PyRuSH
+  dev_url: https://github.com/jianlins/PyRuSH
+  doc_url: https://github.com/jianlins/PyRuSH
   summary: A fast implementation of RuSH (Rule-based sentence Segmenter using Hashing).
+  description: |
+    A fast implementation of RuSH (Rule-based sentence Segmenter using Hashing).
   license: MIT
-  license_file: LICENSE
+  license_family: MIT
+  # The source code for this package doesn't have license file.
+  license_url: https://github.com/jianlins/PyRuSH/blob/master/LICENSE
 
 extra:
   recipe-maintainers:
     - skupr-anaconda
+  skip-lints:
+    - cython_must_be_in_host
+    - python_build_tool_in_run
