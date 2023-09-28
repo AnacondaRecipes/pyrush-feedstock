@@ -13,7 +13,7 @@ build:
   # cymem, spacy, preshed aren't available for s390x
   skip: true  # [s390x]
   script: {{ PYTHON }} -m pip install . --no-deps --no-build-isolation -vv
-  number: 0
+  number: 1
 
 requirements:
   build:
@@ -22,7 +22,7 @@ requirements:
   host:
     - python
     - cymem 2.0.6
-    - cython 0.29.32
+    - cython 0.29
     - numpy {{ numpy }}
     - pip
     - preshed 3.0.6
